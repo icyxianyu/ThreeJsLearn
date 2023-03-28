@@ -102,14 +102,14 @@ export default class children extends ThreeInit{
     }
     contextmenu(){
         this.store.dispatch("clickAction",{});
-        this.store.dispatch("InstanceAction",{cube:{}})
+        // this.store.dispatch("InstanceAction",{cube:{}})
     }
 
     addMouseEvent(event: any):void{  
 
-        const clickNode=this.store.state.clickInstance;
-
-        if(this.camera&&this.plane&&this.scene&&JSON.stringify(clickNode) !== "{}"){
+        const clickNode = this.store.state.clickInstance;
+        const changeNode = this.store.state.clickNode 
+        if(this.camera&&this.plane&&this.scene&&JSON.stringify(changeNode) !== "{}"){
                 const intersects = this.Raycaster(event,this.plane);
                 if (intersects&&intersects.length > 0 ) {
                     intersects[0].point.y+=getMeshLowestToCenterLength(clickNode)
@@ -131,18 +131,19 @@ export default class children extends ThreeInit{
         const intersects = this.Raycaster(event,...Object.values(this.store.state.originInstances));
         if(intersects&&intersects.length>0){
             this.clicInstance = intersects[0].object;
-            this.outlinePassClick.selectedObjects = [this.clicInstance]
+            this.outlinePassClick.selectedObjects = [this.clicInstance];
+            this.store.dispatch("clickCanvas",this.clicInstance);
         }
     }
 
     Raycaster(event:any,...observered:any){
         if(this.camera&&this.plane&&this.scene){
-            const mouse = new THREE.Vector2();
-            const raycaster = new THREE.Raycaster();
-            mouse.x = ((event.clientX -this.el.left)/ this.el.width) * 2 - 1;
-            mouse.y = -((event.clientY -this.el .top)/ this.el.height) * 2 + 1;
-            raycaster.setFromCamera(mouse, this.camera);
-            const intersects = raycaster.intersectObjects(observered,true);
+                const mouse = new THREE.Vector2();
+                const raycaster = new THREE.Raycaster();
+                mouse.x = ((event.clientX -this.el.left)/ this.el.width) * 2 - 1;
+                mouse.y = -((event.clientY -this.el .top)/ this.el.height) * 2 + 1;
+                raycaster.setFromCamera(mouse, this.camera);
+                const intersects = raycaster.intersectObjects(observered,true);
             return intersects
         }
     }   

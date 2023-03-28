@@ -26,8 +26,7 @@
     const store = useStore()
 
     const clickNode=(p:any)=>{
-        store.dispatch('clickAction',p);
-
+        store.dispatch('appendNodeAction',p);
     }
 
 </script>

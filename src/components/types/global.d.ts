@@ -14,4 +14,5 @@ interface State{
   clickInstance:any,
   clickInstances:AnyObj,
   originInstances:any;
+  appendNode:any
 }

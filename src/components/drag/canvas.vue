@@ -29,10 +29,15 @@ let canvasInstance = ref();
     const clickvalue = computed(()=>{
         return store.state.clickNode;
     })
-    watch(clickvalue,(newValue)=>{
+    const appendNode = computed(()=>{
+        return store.state.appendNode;
+    })
+    watch(appendNode,(newValue)=>{
+        console.log(appendNode)
         if(JSON.stringify(newValue)!=="{}"){
             const cube = canvasInstance.value.createCube(newValue);
-            store.dispatch("InstanceAction",{cube,clickvalue:clickvalue.value})
+            store.dispatch("clickAction",appendNode.value)
+            store.dispatch("InstanceAction",{cube,clickvalue:appendNode.value})
         }
     })
 

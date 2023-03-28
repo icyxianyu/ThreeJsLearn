@@ -4,8 +4,9 @@ import { createStore } from 'vuex'
  */
 export default createStore<State>({
     state:{
-            canvasInstance:null,
-            clickNode:null,
+            canvasInstance:{},
+            appendNode:{},
+            clickNode:{},
             clickInstance:{},
             clickInstances :{} ,
             originInstances:[],
@@ -22,13 +23,18 @@ export default createStore<State>({
             if(JSON.stringify(value.cube)!=="{}"){
 
                 const temp :any={};
-                temp[value.cube.uuid] = value.clickvalue;
+                temp[value.cube.uuid] = {...value.clickvalue,uuid:value.cube.uuid};
                 state.clickInstances = {...state.clickInstances,...temp}
                 state.originInstances = [...state.originInstances,value.cube]
 
             }
         },
-
+        clickCanvasMutations(state,value){
+            state.clickInstance = value;
+        },
+        appendNodeMutations(state,value){
+            state.appendNode = value;
+        },
     },
     actions:{
         canvasInstanceAction(conted,val){
@@ -39,6 +45,12 @@ export default createStore<State>({
         },
         InstanceAction(conted,val){
             conted.commit("clickInstanceMutations",val)
-        }
+        },
+        clickCanvas(conted,val){
+            conted.commit("clickCanvasMutations",val)
+        },
+        appendNodeAction(conted,val){
+            conted.commit("appendNodeMutations",val)
+        },
     },
 })

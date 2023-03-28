@@ -1,7 +1,8 @@
 <template>
     <div v-for="(item,index) of insertCards" :key="item.uuid">
         <n-card class="card" size="small" 
-        content-style="font-size: 5px;padding:5px">
+        :class="clickvalue.uuid === item.uuid? ' clickNode':'' " 
+        content-style="font-size: 5px; padding:5px" >
             {{index}} - {{ item.CName }}
         </n-card>
 
@@ -13,7 +14,7 @@ import {useStore} from "vuex"
 import {computed,watch} from "vue"
 const store =useStore();
 const clickvalue = computed(()=>{
-        return store.state.clickNode;
+        return store.state.clickInstance;
     })
 const insertCards =computed(()=>{
     return Object.values(store.state.clickInstances)
@@ -24,8 +25,13 @@ const insertCards =computed(()=>{
    .card{
     margin-bottom:10px;
     cursor: pointer;
-   } 
+    transition: all 0.5s;
+   }
+   .clickNode{
+        background-color:aliceblue;
+        color:black
+   }
    .card:hover{
-    border-color:aquamarine
+        border-color:aquamarine
    }
 </style>
