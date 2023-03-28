@@ -1,4 +1,5 @@
 import { getMeshLowestToCenterLength } from "@/utils/lowestPoint";
+import Stats from 'three/examples/jsm/libs/stats.module.js'
 import { ThreeInit } from "@/utils/three"
 import * as THREE from "three"
 import {useStore} from "vuex";
@@ -7,8 +8,10 @@ export default class children extends ThreeInit{
     plane: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial> | undefined;
     store: any;
     boxHelper: THREE.BoxHelper | undefined;
+    stats: any;
     constructor(element:HTMLElement){
         super(element);
+        this.initStats()
         this.createPlane();
         this.initCarame();
         this.render();
@@ -23,7 +26,12 @@ export default class children extends ThreeInit{
         if(this.controls)
             this.controls.enablePan=false
     }
-
+    initStats(){
+        this.stats = new Stats();
+        this.stats.domElement.style.position="absolute"
+        this.stats.domElement.style.top='0px';
+        this.element.appendChild(this.stats.domElement)
+    }
     createCube({geometory ,geoOption,Material,materialOption,position}:createCube):any{
         const geometryType = new THREE[geometory](...geoOption)
         const material = new THREE[Material](materialOption)
@@ -54,7 +62,7 @@ export default class children extends ThreeInit{
         if (this.renderer && this.scene && 
             this.camera && this.controls ) {
             requestAnimationFrame( this.render.bind(this) );
-            
+            this.stats.update();
             this.renderer.render(this.scene, this.camera);
             this.controls.update();
         }
@@ -89,11 +97,10 @@ export default class children extends ThreeInit{
     }
     mouseClick(event:any):void{
         const intersects = this.Raycaster(event,...Object.values(this.store.state.originInstances));
-
-        // if(intersects&&intersects.length>0){
-        //    this.boxHelper=new THREE.BoxHelper( intersects?.[0].object )
-        //    this.scene?.add(this.boxHelper);
-        // }
+        if(intersects&&intersects.length>0){
+           this.boxHelper=new THREE.BoxHelper( intersects?.[0].object )
+           this.scene?.add(this.boxHelper);
+        }
     }
     Raycaster(event:any,...observered:any){
         if(this.camera&&this.plane&&this.scene){
