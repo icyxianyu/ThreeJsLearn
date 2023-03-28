@@ -1,13 +1,18 @@
 <template >
     <n-layout-content >
-        <div ref="canvas" class="canvas"> </div>
+        <div ref="canvas" 
+            class="canvas" 
+            @contextmenu="canvasInstance.contextmenu"
+            @mousemove="canvasInstance.mouseMove"
+            @click="canvasInstance.mouseClick"
+            > </div>
     </n-layout-content>
 </template>
 <script setup>
 import {NLayoutContent} from 'naive-ui'
 import { onMounted, ref,watch ,computed,} from 'vue';
 import ThreeCanvas  from "./init"
-import {    useStore } from  "vuex"
+import { useStore } from  "vuex"
 const store = useStore();
 
 let canvas = ref(null);
@@ -30,6 +35,7 @@ let canvasInstance = ref();
             store.dispatch("InstanceAction",{cube,clickvalue:clickvalue.value})
         }
     })
+
 </script>
 <style scoped>
 .canvas{

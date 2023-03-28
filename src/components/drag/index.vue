@@ -3,7 +3,7 @@
        <n-layout has-sider style="height:100vh" >
         <n-layout-sider 
                     collapse-mode="transform"
-                    :collapsed-width="10"
+                    :collapsed-width="0"
                     
                     show-trigger="arrow-circle"
                     content-style="padding: 24px"
@@ -17,7 +17,7 @@
                         class="temp"
                         show-trigger
                         collapse-mode="width"
-                        :collapsed-width="10"
+                        :collapsed-width="0"
                         :show-collapsed-content=false
                         :width="240"
                         :native-scrollbar="false">       

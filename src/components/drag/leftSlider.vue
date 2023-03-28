@@ -28,7 +28,6 @@
     const clickNode=(p:any)=>{
         store.dispatch('clickAction',p);
 
-        store.state.canvasInstance.mouseEvent();
     }
 
 </script>
