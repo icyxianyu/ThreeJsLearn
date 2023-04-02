@@ -5,10 +5,11 @@
             @contextmenu="canvasInstance.contextmenu"
             @mousemove="canvasInstance.mouseMove"
             @click="canvasInstance.mouseClick"
+            @dblclick="doubleClick"
             > </div>
     </n-layout-content>
 </template>
-<script setup>
+<script setup lang="ts">
 import {NLayoutContent} from 'naive-ui'
 import { onMounted, ref,watch ,computed,} from 'vue';
 import ThreeCanvas  from "./init"
@@ -26,6 +27,10 @@ let canvasInstance = ref();
 
         }
     })
+    const doubleClick=(event:any)=>{
+        store.dispatch("clickAction",{isMove:true})
+        canvasInstance.value.mouseMove(event)
+    }
     const clickvalue = computed(()=>{
         return store.state.clickNode;
     })
@@ -33,7 +38,6 @@ let canvasInstance = ref();
         return store.state.appendNode;
     })
     watch(appendNode,(newValue)=>{
-        console.log(appendNode)
         if(JSON.stringify(newValue)!=="{}"){
             const cube = canvasInstance.value.createCube(newValue);
             store.dispatch("clickAction",appendNode.value)

@@ -3,7 +3,7 @@
         <n-layout-header 
         style="height: 64px; padding: 24px" 
         bordered>
-            <n-h2>选择物体添加入场景中</n-h2>
+            <n-h2 style="user-select: none;">选择物体添加入场景中</n-h2>
         </n-layout-header>
 
         <n-layout  position="absolute" style="top: 64px">

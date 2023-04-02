@@ -10,6 +10,7 @@ export default createStore<State>({
             clickInstance:{},
             clickInstances :{} ,
             originInstances:[],
+            originInstancesObject:{},
     },
     mutations:{
         convasInstanceAction(state,value){
@@ -23,10 +24,12 @@ export default createStore<State>({
             if(JSON.stringify(value.cube)!=="{}"){
 
                 const temp :any={};
+                const tempObject :any ={}
+                tempObject[value.cube.uuid] = value.cube
                 temp[value.cube.uuid] = {...value.clickvalue,uuid:value.cube.uuid};
                 state.clickInstances = {...state.clickInstances,...temp}
                 state.originInstances = [...state.originInstances,value.cube]
-
+                state.originInstancesObject= {...state.originInstancesObject,...tempObject}
             }
         },
         clickCanvasMutations(state,value){

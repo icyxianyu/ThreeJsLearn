@@ -42,8 +42,9 @@ export default class children extends ThreeInit{
             
             this.composer.addPass(this.outlinePass);
             this.composer.addPass(this.outlinePassClick);
+
             const effectFXAA = new ShaderPass( FXAAShader );
-            effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
+            effectFXAA.uniforms[ 'resolution' ].value.set( 1 / this.el.width, 1 / this.el.height );
             this.composer.addPass( effectFXAA );
         }
     }
@@ -102,13 +103,14 @@ export default class children extends ThreeInit{
     }
     contextmenu(){
         this.store.dispatch("clickAction",{});
+        this.store.dispatch("appendNodeAction",{})
         // this.store.dispatch("InstanceAction",{cube:{}})
     }
 
     addMouseEvent(event: any):void{  
 
         const clickNode = this.store.state.clickInstance;
-        const changeNode = this.store.state.clickNode 
+        const changeNode = this.store.state.clickNode;
         if(this.camera&&this.plane&&this.scene&&JSON.stringify(changeNode) !== "{}"){
                 const intersects = this.Raycaster(event,this.plane);
                 if (intersects&&intersects.length > 0 ) {
@@ -135,7 +137,10 @@ export default class children extends ThreeInit{
             this.store.dispatch("clickCanvas",this.clicInstance);
         }
     }
-
+    clickBack(object:any){
+        this.outlinePassClick.selectedObjects = [object];
+        this.store.dispatch("clickCanvas",object);
+    }
     Raycaster(event:any,...observered:any){
         if(this.camera&&this.plane&&this.scene){
                 const mouse = new THREE.Vector2();
@@ -146,5 +151,5 @@ export default class children extends ThreeInit{
                 const intersects = raycaster.intersectObjects(observered,true);
             return intersects
         }
-    }   
+    } 
 }
