@@ -49,7 +49,7 @@ export const ThreeNodes = [
 
         geometory: "BoxGeometry",
         geoOption: [10, 10, 10],
-        Material: "MeshBasicMaterial",
+        Material,
         materialOption,
         position,
     },
